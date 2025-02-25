@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let show = document.querySelector(".projectshow");
   let show2 = document.querySelector(".projectshow.s");
   let views = document.querySelectorAll(".project-info button");
-  let sections = document.querySelectorAll("section:not(.projects),header,footer");
+  let sections = document.querySelectorAll("section:not(.projects), header, footer");
   let button = document.querySelector(".svg");
 
   views.forEach((view) => {
@@ -84,10 +84,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// ✅ كود الأنيميشن للفورم عند الظهور في الشاشة
 document.addEventListener("DOMContentLoaded", function () {
   let contactSection = document.getElementById("contact");
-  let contactForm = document.getElementById("contact-form");
-  let inputs = document.querySelectorAll("#contactForm input, #contactForm textarea");
+  let contactForm = document.getElementById("contact-form"); // ✅ تعديل الـ ID
+  let inputs = document.querySelectorAll("#contact-form input, #contact-form textarea");
 
   function isInViewport(element) {
     let rect = element.getBoundingClientRect();
@@ -107,13 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
   contactSection.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out";
   window.addEventListener("scroll", handleScroll);
 
-  try {
-    sessionStorage.setItem("test", "test");
-    sessionStorage.removeItem("test");
-  } catch (e) {
-    console.warn("⚠️ sessionStorage غير مدعوم في هذا المتصفح.");
-  }
-
+  // ✅ حفظ بيانات الفورم عند الكتابة
   inputs.forEach((input) => {
     let storedValue = sessionStorage.getItem(input.id);
     if (storedValue) {
@@ -125,29 +120,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  contactForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+  // ✅ إرسال البيانات إلى واتساب مباشرةً
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-    let name = document.getElementById("name").value.trim();
-    let subject = document.getElementById("subject").value.trim();
-    let phone = document.getElementById("phone").value.trim();
-    let message = document.getElementById("message").value.trim();
+      let name = document.getElementById("name").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let subject = document.getElementById("subject").value.trim();
+      let phone = document.getElementById("phone").value.trim();
+      let message = document.getElementById("message").value.trim();
 
-    if (name === "" || subject === "" || phone === "" || message === "") {
-      alert("⚠️ من فضلك املأ جميع الحقول.");
-      return;
-    }
+      if (name === "" || email === "" || subject === "" || phone === "" || message === "") {
+        alert("⚠️ من فضلك املأ جميع الحقول.");
+        return;
+      }
 
-    if (!/^\d+$/.test(phone)) {
-      alert("⚠️ من فضلك أدخل رقم هاتف صالح.");
-      return;
-    }
+      let whatsappMessage = `👤 *الاسم:* ${name}\n📧 *الإيميل:* ${email}\n📌 *الموضوع:* ${subject}\n📞 *رقم الهاتف:* ${phone}\n💬 *الرسالة:* ${message}`;
 
-    let whatsappMessage = `👤 *الاسم:* ${name}\n📌 *الموضوع:* ${subject}\n📞 *رقم الهاتف:* ${phone}\n💬 *الرسالة:* ${message}`;
+      let phoneNumber = "201061062466";
+      let whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
-    let phoneNumber = "201061062466";
-    let whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-
-    window.location.href = whatsappURL;
-  });
+      window.open(whatsappURL, "_blank");
+    });
+  } else {
+    console.error("❌ عنصر contact-form غير موجود في الصفحة.");
+  }
 });
