@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   let contactSection = document.getElementById("contact");
-  let contactForm = document.getElementById("contactForm");
+  let contactForm = document.getElementById("contact-form");
   let inputs = document.querySelectorAll("#contactForm input, #contactForm textarea");
 
   function isInViewport(element) {
