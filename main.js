@@ -86,10 +86,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // ✅ كود الأنيميشن للفورم عند الظهور في الشاشة
 document.addEventListener("DOMContentLoaded", function () {
-  let contactSection = document.getElementById("contact");
+ let contactSection = document.getElementById("contact");
   let contactForm = document.getElementById("contactForm");
-  let inputs = document.querySelectorAll("#contactForm input, #contactForm textarea");
+  let inputs = document.querySelectorAll(
+    "#contactForm input, #contactForm textarea"
+  );
 
+  // ✅ تشغيل الأنيميشن عند ظهور القسم في الشاشة
   function isInViewport(element) {
     let rect = element.getBoundingClientRect();
     return rect.top < window.innerHeight && rect.bottom >= 0;
@@ -102,11 +105,6 @@ document.addEventListener("DOMContentLoaded", function () {
       window.removeEventListener("scroll", handleScroll);
     }
   }
-
-  contactSection.style.opacity = "0";
-  contactSection.style.transform = "translateY(50px)";
-  contactSection.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out";
-  window.addEventListener("scroll", handleScroll);
 
   // ✅ حفظ بيانات الفورم عند الكتابة
   inputs.forEach((input) => {
