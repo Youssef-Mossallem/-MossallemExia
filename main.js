@@ -84,12 +84,45 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// ✅ كود جديد: إرسال بيانات الفورم إلى واتساب مباشرةً
+// ✅ كود الأنيميشن للفورم عند الظهور في الشاشة
 document.addEventListener("DOMContentLoaded", function () {
+  let contactSection = document.getElementById("contact");
   let contactForm = document.getElementById("contactForm");
+  let inputs = document.querySelectorAll("#contactForm input, #contactForm textarea");
 
+  function isInViewport(element) {
+    let rect = element.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom >= 0;
+  }
+
+  function handleScroll() {
+    if (isInViewport(contactSection)) {
+      contactSection.style.opacity = "1";
+      contactSection.style.transform = "translateY(0)";
+      window.removeEventListener("scroll", handleScroll);
+    }
+  }
+
+  contactSection.style.opacity = "0";
+  contactSection.style.transform = "translateY(50px)";
+  contactSection.style.transition = "opacity 0.8s ease-out, transform 0.8s ease-out";
+  window.addEventListener("scroll", handleScroll);
+
+  // ✅ حفظ بيانات الفورم عند الكتابة
+  inputs.forEach((input) => {
+    let storedValue = sessionStorage.getItem(input.id);
+    if (storedValue) {
+      input.value = storedValue;
+    }
+
+    input.addEventListener("input", function () {
+      sessionStorage.setItem(input.id, input.value);
+    });
+  });
+
+  // ✅ إرسال البيانات إلى واتساب مباشرةً
   contactForm.addEventListener("submit", function (event) {
-    event.preventDefault(); // منع الإرسال الافتراضي
+    event.preventDefault();
 
     let name = document.getElementById("name").value.trim();
     let email = document.getElementById("email").value.trim();
@@ -102,19 +135,11 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // ✅ تنسيق البيانات كرسالة
-    let whatsappMessage = `✉️ *المعلومات المرسلة:*\n`
-                          + `👤 *الاسم:* ${name}\n`
-                          + `📧 *البريد الإلكتروني:* ${email}\n`
-                          + `📌 *الموضوع:* ${subject}\n`
-                          + `📞 *رقم الهاتف:* ${phone}\n`
-                          + `💬 *الرسالة:* ${message}`;
+    let whatsappMessage = `👤 *الاسم:* ${name}\n📧 *الإيميل:* ${email}\n📌 *الموضوع:* ${subject}\n📞 *رقم الهاتف:* ${phone}\n💬 *الرسالة:* ${message}`;
 
-    // ✅ إرسال البيانات إلى رقم الواتساب مباشرةً
-    let phoneNumber = "201061062466"; // رقمك بدون "+"
+    let phoneNumber = "201061062466";
     let whatsappURL = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(whatsappMessage)}`;
 
-    // ✅ فتح تطبيق واتساب مباشرةً
     window.location.href = whatsappURL;
   });
 });
