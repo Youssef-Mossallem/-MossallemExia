@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      let whatsappMessage = `👤 *الاسم:* ${name}\n📧 *الإيميل:* ${email}\n📌 *الموضوع:* ${subject}\n📞 *رقم الهاتف:* ${phone}\n💬 *الرسالة:* ${message}`;
+      let whatsappMessage = `👤 *Name:* ${name}\n📧 *Email:* ${email}\n📌 *Subject:* ${subject}\n📞 *Phone:* ${phone}\n💬 *Message:* ${message}`;
 
       let phoneNumber = "201061062466";
       let whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
