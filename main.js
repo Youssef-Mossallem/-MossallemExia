@@ -142,6 +142,12 @@ document.addEventListener("DOMContentLoaded", function () {
       let whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
       window.open(whatsappURL, "_blank");
+      name === ""
+      email === ""
+      subject === ""
+      phone === ""
+      message === ""
+      window.localStorage.clear()
     });
   } else {
     console.error("❌ عنصر contact-form غير موجود في الصفحة.");
